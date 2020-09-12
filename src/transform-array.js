@@ -6,6 +6,7 @@ module.exports = function transform(arr) {
     newArray.forEach((v, i) => {
         switch (v) {
             case "--discard-next":
+                //make sure the end isn't reached
                 if (i !== newArray.length - 1) {
                     delete newArray[i];
                     delete newArray[i + 1];
@@ -15,7 +16,6 @@ module.exports = function transform(arr) {
                 break;
 
             case "--discard-prev":
-                //make sure the end isn't reached
                 if (i > 1) {
                     delete newArray[i];
                     delete newArray[i - 1];
