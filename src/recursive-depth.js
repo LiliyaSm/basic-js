@@ -2,35 +2,30 @@ const CustomError = require("../extensions/custom-error");
 
 module.exports = class DepthCalculator {
     constructor() {
-        this.depth = 0;
-        // this.flag = 0;
+        this.depth = 1;
+        this.level = 0;
     }
 
     calculateDepth(array) {
-        console.log(array);
-
-        this.depth++;
-        let level = this.depth;
-        console.log("depth0", this.depth);
-        console.log("level", level);
+        this.level++;
 
         for (array.value of array) {
             if (Array.isArray(array.value)) {
-                console.log(array.value);
-                console.log("depth", this.depth);
-                // level++;
-                // if (level > this.depth) {
-                    // this.depth++;
-                    this.calculateDepth(array.value);
-                // }
-                // flag = 1;
+                // check if level was visited already
+                if (!(this.depth > this.level)) {
+                    this.depth++;
+                }
+                this.calculateDepth(array.value);
             }
         }
-        if (level === 1) {
-        let result = this.depth;
-        this.depth = 0;
-        // console.log("result", result)
+
+        if (this.level === 1) {
+            // end recursion and return result
+            let result = this.depth;
+            this.depth = 1;
+            this.level = 0;
             return result;
         }
+        this.level -= 1;
     }
 };
