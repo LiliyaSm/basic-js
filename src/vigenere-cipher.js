@@ -13,39 +13,26 @@ class VigenereCipheringMachine {
         message = message.toLowerCase();
         key = key.toLowerCase();
 
-        console.log("message", message);
-
-        let longKey = "";
-        let flag = 0;
-        let ind = "";
-
-        for (let i = 0; i < message.length; i++) {
-            if (!/^([a-z])$/.test(message[i])) {
-                longKey += message[i];
-                flag++;
-                continue;
-            }
-            if (flag) {
-                ind = (i - flag) % key.length;
-            } else {
-                ind = i % key.length;
-            }
-            longKey += key[ind];
-        }
-
         let result = "";
+        let count = 0;
         for (let i = 0; i < message.length; i++) {
             if (!/^([a-z])$/.test(message[i])) {
                 result += message[i];
                 continue;
             }
             let charCipher =
-                (longKey.charCodeAt(i) - 97 + (message.charCodeAt(i) - 97)) %
-                26;
+                (key.charCodeAt(count % key.length) - 97 + (message.charCodeAt(i) - 97)) % 26;
             result += String.fromCharCode(charCipher + 97);
+            count++;
         }
+        
+        result = result.toUpperCase();
 
-        return result.toUpperCase();
+        // not to slow down long tests
+        if (message.length < 5)
+            console.log(`message: ${message}  key: ${key} result: ${result}`);
+
+        return result;
     }
 
     decrypt(encryptedMessage, key) {
@@ -56,38 +43,30 @@ class VigenereCipheringMachine {
         encryptedMessage = encryptedMessage.toLowerCase();
         key = key.toLowerCase();
 
-        let longKey = "";
-        let flag = 0;
-        let ind = "";
-
-        for (let i = 0; i < encryptedMessage.length; i++) {
-            if (!/^([a-z])$/.test(encryptedMessage[i])) {
-                longKey += encryptedMessage[i];
-                flag++;
-                continue;
-            }
-            if (flag) {
-                ind = (i - flag) % key.length;
-            } else {
-                ind = i % key.length;
-            }
-            longKey += key[ind];
-        }
-
         let result = "";
+        let count = 0;
         for (let i = 0; i < encryptedMessage.length; i++) {
             if (!/^([a-z])$/.test(encryptedMessage[i])) {
                 result += encryptedMessage[i];
                 continue;
             }
             let charMess =
-                ((encryptedMessage.charCodeAt(i) - 97) - (longKey.charCodeAt(i) - 97) + 26 ) % 26;
+                (encryptedMessage.charCodeAt(i) -
+                    97 -
+                    (key.charCodeAt(count % key.length) - 97) +
+                    26) %
+                26;
             result += String.fromCharCode(charMess + 97);
-
-
+            count++;
         }
-
-        return result.toUpperCase();
+        result = result.toUpperCase();
+        
+        // not to slow down long tests
+        if (encryptedMessage.length < 5)
+            console.log(
+                `encMessage: ${encryptedMessage} key:${key} result: ${result}`
+            );
+        return result;
     }
 }
 
