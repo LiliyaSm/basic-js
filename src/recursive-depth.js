@@ -12,7 +12,8 @@ module.exports = class DepthCalculator {
         for (array.value of array) {
             if (Array.isArray(array.value)) {
                 // check if level was visited already
-                if (!(this.depth > this.level)) {
+                if (this.level === this.depth) {
+                    //we did not visit any arrays on this level
                     this.depth++;
                 }
                 this.calculateDepth(array.value);
@@ -20,7 +21,7 @@ module.exports = class DepthCalculator {
         }
 
         if (this.level === 1) {
-            // end recursion and return result
+            // end the last recursion and return the result
             let result = this.depth;
             this.depth = 1;
             this.level = 0;
