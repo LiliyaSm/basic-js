@@ -8,13 +8,12 @@ module.exports = function repeater(str, options) {
     //   * `additionRepeatTimes` sets the `number` of repetitions of the `addition`;
     //   * `additionSeparator` is a `string` separating repetitions of the `addition`
 
-
-    let addition = ""
-
+    let addition = "";
+    //null also should be convert in string
     if (options.addition !== undefined) {
         addition = String(options.addition);
-    } 
-    
+    }
+
     let addResult = addition;
 
     str = String(str);

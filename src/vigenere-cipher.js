@@ -12,10 +12,16 @@ class VigenereCipheringMachine {
         }
         message = message.toLowerCase();
         key = key.toLowerCase();
+        
+        if (this.type === false){
+            message = message.split("").reverse().join("");
+        }
 
         let result = "";
+        //counter for "key", because keyword repeats in key
         let count = 0;
         for (let i = 0; i < message.length; i++) {
+            //handle with symbols like spaces, just add
             if (!/^([a-z])$/.test(message[i])) {
                 result += message[i];
                 continue;
@@ -25,13 +31,7 @@ class VigenereCipheringMachine {
             result += String.fromCharCode(charCipher + 97);
             count++;
         }
-        
         result = result.toUpperCase();
-
-        // not to slow down long tests
-        if (message.length < 5)
-            console.log(`message: ${message}  key: ${key} result: ${result}`);
-
         return result;
     }
 
@@ -43,7 +43,12 @@ class VigenereCipheringMachine {
         encryptedMessage = encryptedMessage.toLowerCase();
         key = key.toLowerCase();
 
+        if (this.type === false) {
+            encryptedMessage = encryptedMessage.split("").reverse().join("");
+        }
+
         let result = "";
+        //counter for "key", because keyword repeats in key
         let count = 0;
         for (let i = 0; i < encryptedMessage.length; i++) {
             if (!/^([a-z])$/.test(encryptedMessage[i])) {
@@ -51,21 +56,12 @@ class VigenereCipheringMachine {
                 continue;
             }
             let charMess =
-                (encryptedMessage.charCodeAt(i) -
-                    97 -
-                    (key.charCodeAt(count % key.length) - 97) +
-                    26) %
-                26;
+                (encryptedMessage.charCodeAt(i) - 97 - (key.charCodeAt(count % key.length) - 97) + 26) % 26;
             result += String.fromCharCode(charMess + 97);
             count++;
         }
         result = result.toUpperCase();
-        
-        // not to slow down long tests
-        if (encryptedMessage.length < 5)
-            console.log(
-                `encMessage: ${encryptedMessage} key:${key} result: ${result}`
-            );
+
         return result;
     }
 }

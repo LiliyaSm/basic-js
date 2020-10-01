@@ -9,14 +9,14 @@ module.exports = class DepthCalculator {
     calculateDepth(array) {
         this.level++;
 
-        for (array.value of array) {
-            if (Array.isArray(array.value)) {
+        for (let value of array) {
+            if (Array.isArray(value)) {
                 // check if level was visited already
                 if (this.level === this.depth) {
                     //we did not visit any arrays on this level
                     this.depth++;
                 }
-                this.calculateDepth(array.value);
+                this.calculateDepth(value);
             }
         }
 
